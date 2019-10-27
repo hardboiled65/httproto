@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     assert(protocol->method == HTTPROTO_GET);
     assert(strcmp(httproto_protocol_get_uri(protocol), "/") == 0);
     assert(strcmp(httproto_protocol_get_path(protocol), "/") == 0);
+    assert(strcmp(httproto_protocol_get_header(protocol, "Host"), "example.com") == 0);
 
     httproto_protocol_free(protocol);
 

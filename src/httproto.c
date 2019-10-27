@@ -226,7 +226,7 @@ int parser_on_header_value(http_parser *parser, const char *at, size_t len)
     strncpy(key, p_data->header_key, p_data->header_key_len);
     key[p_data->header_key_len] = '\0';
     strncpy(val, at, len);
-    key[len] = '\0';
+    val[len] = '\0';
     httproto_string_dictionary_set(protocol->headers, key, val);
 
     p_data->header_key = NULL;
