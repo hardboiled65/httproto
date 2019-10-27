@@ -1,7 +1,7 @@
 OBJ = \
 	main.o
 
-CFLAGS = -I../include
+CFLAGS = -g -I../include -Wl,-rpath=../
 LDLIBS = -L.. -lhttproto
 
 default: $(OBJ)
