@@ -25,6 +25,10 @@ int main(int argc, char *argv[])
     protocol = httproto_protocol_create(HTTPROTO_REQUEST);
     httproto_protocol_parse(protocol, requests[1], strlen(requests[1]));
 
+    assert(strcmp(httproto_protocol_get_uri(protocol), "/hardboiled65?tab=repositories") == 0);
+    assert(strcmp(httproto_protocol_get_path(protocol), "/hardboiled65") == 0);
+    assert(strcmp(httproto_protocol_get_query_string(protocol), "tab=repositories") == 0);
+
     httproto_protocol_free(protocol);
 
     /* Test responses. */
