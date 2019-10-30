@@ -86,6 +86,10 @@ httproto_protocol* httproto_protocol_create(enum httproto_type type)
     httproto_protocol *protocol = (httproto_protocol*)malloc(sizeof(httproto_protocol));
     protocol->type = type;
 
+    protocol->uri = NULL;
+    protocol->path = NULL;
+    protocol->query_string = NULL;
+
     protocol->headers = httproto_string_dictionary_create();
 
     return protocol;
@@ -208,18 +212,13 @@ void httproto_protocol_free(httproto_protocol *protocol)
 }
 
 
-//===========================
-// Callbacks
-//===========================
-int parser_on_url(http_parser *parser, const char *at, size_t len)
+static size_t _httproto_protocol_set_path(httproto_protocol *protocol,
+    const char *at,
+    size_t len)
 {
-    httproto_protocol *protocol = ((struct parser_data*)parser->data)->protocol;
-
-    protocol->uri = (char*)calloc(len + 1, sizeof(char));
-    strncpy(protocol->uri, at, len);
-
+    size_t pos;
     /* Detect position of '?' character. */
-    size_t pos = 0;
+    pos = 0;
     for (; pos < len; ++pos) {
         if (at[pos] == '?') {
             break;
@@ -230,8 +229,43 @@ int parser_on_url(http_parser *parser, const char *at, size_t len)
         protocol->path = (char*)calloc(pos + 1, sizeof(char));
         strncpy(protocol->path, at, pos);
     } else {
+        /* Null if same as uri. */
         protocol->path = NULL;
     }
+
+    return pos;
+}
+
+
+static size_t _httproto_protocol_set_query_string(httproto_protocol *protocol,
+    const char *at,
+    size_t len)
+{
+    protocol->query_string = (char*)calloc(len + 1, sizeof(char));
+    strncpy(protocol->query_string, at, len);
+
+    return len;
+}
+
+
+//===========================
+// Callbacks
+//===========================
+int parser_on_url(http_parser *parser, const char *at, size_t len)
+{
+    size_t path_len;
+
+    httproto_protocol *protocol = ((struct parser_data*)parser->data)->protocol;
+
+    protocol->uri = (char*)calloc(len + 1, sizeof(char));
+    strncpy(protocol->uri, at, len);
+
+    /* Parse path info. */
+    path_len = _httproto_protocol_set_path(protocol, at, len);
+    /* Parse query string. */
+    _httproto_protocol_set_query_string(protocol,
+        at + path_len + 1, /* 1 for '?'. */
+        (len == path_len) ? 0 : len - path_len - 1);
 
     return 0;
 }
