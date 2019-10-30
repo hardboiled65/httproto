@@ -112,8 +112,20 @@ void httproto_protocol_parse(httproto_protocol *protocol, const char *data, size
     http_parser_execute(&parser, &settings, data, len);
 
     switch (parser.method) {
+    case HTTP_CONNECT:
+        protocol->method = HTTPROTO_CONNECT;
+        break;
     case HTTP_GET:
         protocol->method = HTTPROTO_GET;
+        break;
+    case HTTP_HEAD:
+        protocol->method = HTTPROTO_HEAD;
+        break;
+    case HTTP_OPTIONS:
+        protocol->method = HTTPROTO_OPTIONS;
+        break;
+    case HTTP_PATCH:
+        protocol->method = HTTPROTO_PATCH;
         break;
     case HTTP_POST:
         protocol->method = HTTPROTO_POST;
@@ -123,6 +135,9 @@ void httproto_protocol_parse(httproto_protocol *protocol, const char *data, size
         break;
     case HTTP_DELETE:
         protocol->method = HTTPROTO_DELETE;
+        break;
+    case HTTP_TRACE:
+        protocol->method = HTTPROTO_TRACE;
         break;
     default:
         break;
@@ -151,6 +166,9 @@ const char* httproto_protocol_get_uri(const httproto_protocol *protocol)
 
 const char* httproto_protocol_get_path(const httproto_protocol *protocol)
 {
+    if (protocol->path != NULL) {
+        return protocol->path;
+    }
     return protocol->uri;
 }
 
@@ -199,6 +217,21 @@ int parser_on_url(http_parser *parser, const char *at, size_t len)
 
     protocol->uri = (char*)calloc(len + 1, sizeof(char));
     strncpy(protocol->uri, at, len);
+
+    /* Detect position of '?' character. */
+    size_t pos = 0;
+    for (; pos < len; ++pos) {
+        if (at[pos] == '?') {
+            break;
+        }
+    }
+    if (pos != len) {
+        /* Copy path info. */
+        protocol->path = (char*)calloc(pos + 1, sizeof(char));
+        strncpy(protocol->path, at, pos);
+    } else {
+        protocol->path = NULL;
+    }
 
     return 0;
 }

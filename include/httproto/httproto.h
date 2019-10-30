@@ -116,6 +116,7 @@ struct httproto_protocol {
     enum httproto_request_method method;    /* Request only */
     enum httproto_status_code status_code;  /* Response only */
     char *uri;                              /* Request only */
+    char *path;                             /* Request only */
     const char *query_string;               /* Request only */
     httproto_string_dictionary *headers;
     uint64_t content_length;
