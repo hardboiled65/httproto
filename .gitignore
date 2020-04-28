@@ -1,2 +1,6 @@
 *.o
 libhttproto.so*
+
+cmake-build-debug/
+.idea/
+*.pro.user

@@ -27,6 +27,10 @@ test:
 src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) -fPIC -o $@ $<
 
+install:
+	cp -P libhttproto.so* /usr/local/lib/
+	cp -r include/httproto /usr/local/include/
+
 clean:
 	rm -f src/*.o
 	rm -f libhttproto.so*
