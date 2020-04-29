@@ -307,6 +307,7 @@ int parser_on_body(http_parser *parser, const char *at, size_t len)
 
     protocol->content = (char*)calloc(len, sizeof(char));
     strncpy(protocol->content, at, len);
+    protocol->content_length = len;
     return 0;
 }
 

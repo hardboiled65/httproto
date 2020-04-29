@@ -14,5 +14,19 @@ const char *requests[] = {
 };
 
 const char *responses[] = {
-
+    /* Modified response from example.com */
+    "HTTP/1.1 200 OK\r\n"
+    "Age: 439931\r\n"
+    "Cache-Control: max-age=604800\r\n"
+    "Content-Type: text/html; charset=UTF-8\r\n"
+    "Date: Wed, 29 Apr 2020 00:59:06 GMT\r\n"
+    "Etag: \"3147526947+ident\"\r\n"
+    "Expires: Wed, 06 May 2020 00:59:06 GMT\r\n"
+    "Last-Modified: Thu, 17 Oct 2019 07:18:26 GMT\r\n"
+    "Server: ECS (sjc/4E68)\r\n"
+    "Vary: Accept-Encoding\r\n"
+    "X-Cache: HIT\r\n"
+    "Content-Length: 15\r\n"
+    "\r\n"
+    "{\"result\":true}"
 };
