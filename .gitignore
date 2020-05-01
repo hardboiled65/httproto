@@ -1,6 +1,8 @@
 *.o
 libhttproto.so*
 
+tests/httproto-test
+
 cmake-build-debug/
 .idea/
 *.pro.user
