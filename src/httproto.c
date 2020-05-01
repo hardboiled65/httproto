@@ -248,6 +248,78 @@ static size_t _httproto_protocol_set_query_string(httproto_protocol *protocol,
 }
 
 
+const char* httproto_status_code_to_string(enum httproto_status_code code)
+{
+    switch (code) {
+    case HTTPROTO_CONTINUE:
+        return "Continue";
+    case HTTPROTO_SWITCHING_PROTOCOLS:
+        return "Switching Protocols";
+    case HTTPROTO_EARLY_HINTS:
+        return "Early Hints";
+    case HTTPROTO_OK:
+        return "OK";
+    case HTTPROTO_CREATED:
+        return "Created";
+    case HTTPROTO_ACCEPTED:
+        return "Accepted";
+    case HTTPROTO_NON_AUTHORITATIVE_INFORMATION:
+        return "Non-Authoritative Information";
+    case HTTPROTO_NO_CONTENT:
+        return "No Content";
+    case HTTPROTO_RESET_CONTENT:
+        return "Reset Content";
+    case HTTPROTO_PARTIAL_CONTENT:
+    case HTTPROTO_MULTIPLE_CHOICES:
+    case HTTPROTO_MOVED_PERMANENTLY:
+    case HTTPROTO_FOUND:
+    case HTTPROTO_SEE_OTHER:
+    case HTTPROTO_NOT_MODIFIED:
+    case HTTPROTO_TEMPORARY_REDIRECT:
+    case HTTPROTO_PERMANENT_REDIRECT:
+    case HTTPROTO_BAD_REQUEST:
+        return "Bad Request";
+    case HTTPROTO_UNAUTHORIZED:
+    case HTTPROTO_PAYMENT_REQUIRED:
+    case HTTPROTO_FORBIDDEN:
+    case HTTPROTO_NOT_FOUND:
+        return "Not Found";
+    case HTTPROTO_METHOD_NOT_ALLOWED:
+        return "Method Not Allowed";
+    case HTTPROTO_NOT_ACCEPTABLE:
+    case HTTPROTO_PROXY_AUTHENTICATION_REQUIRED:
+    case HTTPROTO_REQUEST_TIMEOUT:
+    case HTTPROTO_CONFLICT:
+        return "Conflict";
+    case HTTPROTO_GONE:
+    case HTTPROTO_LENGTH_REQUIRED:
+    case HTTPROTO_PRECONDITION_FAILED:
+    case HTTPROTO_PAYLOAD_TOO_LARGE:
+    case HTTPROTO_URI_TOO_LONG:
+    case HTTPROTO_UNSUPPORTED_MEDIA_TYPE:
+    case HTTPROTO_RANGE_NOT_SATISFIABLE:
+    case HTTPROTO_EXPECTATION_FAILED:
+    case HTTPROTO_IM_A_TEAPOT:
+    case HTTPROTO_UNPROCESSABLE_ENTITY:
+    case HTTPROTO_TOO_EARLY:
+    case HTTPROTO_UPGRADE_REQUIRED:
+    case HTTPROTO_PRECONDITION_REQUIRED:
+    case HTTPROTO_TOO_MANY_REQUESTS:
+    case HTTPROTO_REQUEST_HEADER_FIELDS_TOO_LARGE:
+    case HTTPROTO_UNAVAILABLE_FOR_LEGAL_REASONS:
+    case HTTPROTO_INTERNAL_SERVER_ERROR:
+    case HTTPROTO_NOT_IMPLEMENTED:
+    case HTTPROTO_BAD_GATEWAY:
+    case HTTPROTO_SERVICE_UNAVAILABLE:
+    case HTTPROTO_GATEWAY_TIMEOUT:
+    case HTTPROTO_HTTP_VERSION_NOT_SUPPORTED:
+    case HTTPROTO_NETWORK_AUTHENTICATION_REQUIRED:
+    default:
+        return NULL;
+    }
+}
+
+
 //===========================
 // Callbacks
 //===========================
