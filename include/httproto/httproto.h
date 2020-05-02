@@ -151,6 +151,7 @@ void httproto_protocol_set_header(httproto_protocol *protocol, const char *key, 
 const char* httproto_protocol_get_header(const httproto_protocol *protocol, const char *key);
 void httproto_protocol_free(httproto_protocol *protocol);
 
+const char* httproto_request_method_to_string(enum httproto_request_method method);
 const char* httproto_status_code_to_string(enum httproto_status_code code);
 
 
