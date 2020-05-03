@@ -147,7 +147,9 @@ void httproto_protocol_parse(httproto_protocol *protocol, const char *data, size
         break;
     }
 
-    // TODO: status code
+    if (protocol->type == HTTPROTO_RESPONSE) {
+        protocol->status_code = parser.status_code;
+    }
 }
 
 
