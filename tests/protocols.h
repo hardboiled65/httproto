@@ -19,6 +19,7 @@ const char *responses[] = {
     "Age: 439931\r\n"
     "Cache-Control: max-age=604800\r\n"
     "Content-Type: text/html; charset=UTF-8\r\n"
+    "X-Custom: aaaa\r\n"
     "Date: Wed, 29 Apr 2020 00:59:06 GMT\r\n"
     "Etag: \"3147526947+ident\"\r\n"
     "Expires: Wed, 06 May 2020 00:59:06 GMT\r\n"

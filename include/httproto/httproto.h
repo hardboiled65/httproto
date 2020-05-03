@@ -12,6 +12,8 @@ extern "C" {
 #endif
 
 
+#define HTTPROTO_STRING_DICTIONARY_CAPACITY 8
+
 enum httproto_type {
     HTTPROTO_REQUEST,
     HTTPROTO_RESPONSE,
@@ -106,6 +108,9 @@ void httproto_string_dictionary_set(httproto_string_dictionary *dict,
 
 const char* httproto_string_dictionary_get(
     const httproto_string_dictionary *dict, const char *key);
+
+size_t httproto_string_dictionary_copy(httproto_string_dictionary *dst,
+    const httproto_string_dictionary *src);
 
 void httproto_string_dictionary_free(httproto_string_dictionary *dict);
 

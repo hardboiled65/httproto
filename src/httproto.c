@@ -1,6 +1,7 @@
 #include <httproto/httproto.h>
 
 #include <string.h>
+#include <stdio.h> // DEBUG!
 
 #include <http_parser.h>
 
@@ -13,7 +14,7 @@ httproto_string_dictionary* httproto_string_dictionary_create()
     httproto_string_dictionary *dict = (httproto_string_dictionary*)(malloc(
         sizeof(httproto_string_dictionary)));
     dict->length = 0;
-    dict->capacity = 8;
+    dict->capacity = HTTPROTO_STRING_DICTIONARY_CAPACITY;
     dict->items = (httproto_key_value_pair*)(calloc(dict->capacity,
         sizeof(httproto_key_value_pair)));
     for (size_t i = 0; i < dict->capacity; ++i) {
@@ -29,6 +30,7 @@ void httproto_string_dictionary_set(httproto_string_dictionary *dict,
     const char *key, const char *val)
 {
     size_t idx = dict->length;
+    httproto_string_dictionary *new_dict = NULL;
 
     dict->items[idx][0] = (char*)malloc(strlen(key) + 1);
     strcpy(dict->items[idx][0], key);
@@ -36,6 +38,31 @@ void httproto_string_dictionary_set(httproto_string_dictionary *dict,
     strcpy(dict->items[idx][1], val);
 
     dict->length += 1;
+    // Increase capacity.
+    if (dict->length >= dict->capacity) {
+        // Allocate new dictionary.
+        new_dict = (httproto_string_dictionary*)(malloc(
+            sizeof(httproto_string_dictionary)));
+        new_dict->capacity = dict->capacity
+            + HTTPROTO_STRING_DICTIONARY_CAPACITY;
+        new_dict->items = (httproto_key_value_pair*)(calloc(new_dict->capacity,
+            sizeof(httproto_key_value_pair)));
+        for (size_t i = 0; i < new_dict->capacity; ++i) {
+            new_dict->items[i][0] = NULL;
+            new_dict->items[i][1] = NULL;
+        }
+        // Copy items.
+        httproto_string_dictionary_copy(new_dict, dict);
+        // Swap dictionaries.
+        for (size_t i = 0; i < dict->length; ++i) {
+            free(dict->items[i][0]);
+            free(dict->items[i][1]);
+        }
+        free(dict->items);
+        dict->items = new_dict->items;
+        dict->length = new_dict->length;
+        dict->capacity = new_dict->capacity;
+    }
 }
 
 
@@ -49,6 +76,27 @@ const char* httproto_string_dictionary_get(
         }
     }
     return NULL;
+}
+
+
+size_t httproto_string_dictionary_copy(httproto_string_dictionary *dst,
+        const httproto_string_dictionary *src)
+{
+    size_t copied = 0;
+
+    for (size_t i = 0; i < src->length; ++i) {
+        if (i >= dst->capacity) {
+            break;
+        }
+        dst->items[i][0] = (char*)malloc(strlen(src->items[i][0]));
+        strcpy(dst->items[i][0], src->items[i][0]);
+        dst->items[i][1] = (char*)malloc(strlen(src->items[i][1]));
+        strcpy(dst->items[i][1], src->items[i][1]);
+        dst->length++;
+        copied++;
+    }
+
+    return copied;
 }
 
 
