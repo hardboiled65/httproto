@@ -301,24 +301,15 @@ static size_t _httproto_protocol_set_query_string(httproto_protocol *protocol,
 const char* httproto_request_method_to_string(enum httproto_request_method method)
 {
     switch (method) {
-    case HTTPROTO_CONNECT:
-        return "CONNECT";
-    case HTTPROTO_DELETE:
-        return "DELETE";
-    case HTTPROTO_GET:
-        return "GET";
-    case HTTPROTO_HEAD:
-        return "HEAD";
-    case HTTPROTO_OPTIONS:
-        return "OPTIONS";
-    case HTTPROTO_PATCH:
-        return "PATCH";
-    case HTTPROTO_POST:
-        return "POST";
-    case HTTPROTO_PUT:
-        return "PUT";
-    case HTTPROTO_TRACE:
-        return "TRACE";
+    case HTTPROTO_CONNECT: return "CONNECT";
+    case HTTPROTO_DELETE: return "DELETE";
+    case HTTPROTO_GET: return "GET";
+    case HTTPROTO_HEAD: return "HEAD";
+    case HTTPROTO_OPTIONS: return "OPTIONS";
+    case HTTPROTO_PATCH: return "PATCH";
+    case HTTPROTO_POST: return "POST";
+    case HTTPROTO_PUT: return "PUT";
+    case HTTPROTO_TRACE: return "TRACE";
     default:
         return NULL;
     }
