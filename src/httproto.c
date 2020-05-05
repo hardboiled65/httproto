@@ -427,14 +427,17 @@ int parser_on_header_value(http_parser *parser, const char *at, size_t len)
 {
     struct parser_data *p_data = (struct parser_data*)parser->data;
     httproto_protocol *protocol = p_data->protocol;
-    char key[64];
-    char val[64];
+    char *key = (char*)malloc(p_data->header_key_len + 1);
+    char *val = (char*)malloc(len + 1);
 
     strncpy(key, p_data->header_key, p_data->header_key_len);
     key[p_data->header_key_len] = '\0';
     strncpy(val, at, len);
     val[len] = '\0';
     httproto_string_dictionary_set(protocol->headers, key, val);
+
+    free(key);
+    free(val);
 
     p_data->header_key = NULL;
 
