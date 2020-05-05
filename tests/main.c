@@ -9,7 +9,8 @@
 
 void debug_print(const httproto_protocol *protocol)
 {
-    fprintf(stdout, "type:    %d\n", protocol->type);
+    fprintf(stdout, "type:    %d (%s)\n", protocol->type,
+        (protocol->type == HTTPROTO_REQUEST) ? "Request" : "Response");
     fprintf(stdout, "version: %d\n", protocol->version);
     fprintf(stdout, "method:  %d (%s)\n", protocol->method,
         httproto_request_method_to_string(protocol->method));
