@@ -15,6 +15,12 @@ ifeq ($(DEBUG), 1)
     CFLAGS += -g -DDEBUG
 endif
 
+RSYNC_EXCLUDE_LIST = \
+	--exclude .git \
+	--exclude .idea \
+	--exclude cmake-build-debug \
+	--exclude httproto.pro.user
+
 default: $(OBJ)
 	$(CC) $(CFLAGS) -shared -Wl,-soname,$(SONAME) $(LDLIBS) -o libhttproto.so.$(VERSION) $^
 	ln -f -s libhttproto.so.$(VERSION) libhttproto.so.$(VERSION_MAJOR).$(VERSION_MINOR)
@@ -31,6 +37,14 @@ install:
 	cp -P libhttproto.so* /usr/local/lib/
 	cp -r include/httproto /usr/local/include/
 
+tar-gz:
+	rsync -av --progress . httproto-$(VERSION) $(RSYNC_EXCLUDE_LIST)
+	tar cvf httproto-$(VERSION).tar httproto-$(VERSION)
+	rm -r httproto-$(VERSION)
+	gzip httproto-$(VERSION).tar
+
 clean:
 	rm -f src/*.o
+	rm -f tests/*.o
 	rm -f libhttproto.so*
+	rm -f httproto-$(VERSION).tar.gz
