@@ -10,6 +10,8 @@ VERSION_MINOR = 1
 VERSION_PATCH = 0
 SONAME = libhttproto.so.$(VERSION_MAJOR)
 
+PREFIX ?= /usr/local
+
 DEBUG ?= 1
 ifeq ($(DEBUG), 1)
     CFLAGS += -g -DDEBUG
@@ -33,9 +35,15 @@ test:
 src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) -fPIC -o $@ $<
 
-install:
-	cp -P libhttproto.so* /usr/local/lib/
-	cp -r include/httproto /usr/local/include/
+install: $(DESTDIR)/$(PREFIX)/lib $(DESTDIR)/$(PREFIX)/include
+	cp -P libhttproto.so* $(DESTDIR)/$(PREFIX)/lib/
+	cp -r include/httproto $(DESTDIR)/$(PREFIX)/include/
+
+$(DESTDIR)/$(PREFIX)/lib:
+	mkdir -p $(DESTDIR)/$(PREFIX)/lib
+
+$(DESTDIR)/$(PREFIX)/include:
+	mkdir -p $(DESTDIR)/$(PREFIX)/include
 
 tar-gz:
 	rsync -av --progress . httproto-$(VERSION) $(RSYNC_EXCLUDE_LIST)
