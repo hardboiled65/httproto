@@ -4,10 +4,10 @@ OBJ = \
 CFLAGS = -I./include
 LDLIBS = -lhttp_parser
 
-VERSION = 0.1.0
+VERSION = 0.1.1
 VERSION_MAJOR = 0
 VERSION_MINOR = 1
-VERSION_PATCH = 0
+VERSION_PATCH = 1
 SONAME = libhttproto.so.$(VERSION_MAJOR)
 
 PREFIX ?= /usr/local
