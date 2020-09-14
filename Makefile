@@ -36,6 +36,7 @@ src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) -fPIC -o $@ $<
 
 install: $(DESTDIR)/$(PREFIX)/lib $(DESTDIR)/$(PREFIX)/include
+	strip libhttproto.so.$(VERSION)
 	cp -P libhttproto.so* $(DESTDIR)/$(PREFIX)/lib/
 	cp -r include/httproto $(DESTDIR)/$(PREFIX)/include/
 
