@@ -140,6 +140,9 @@ httproto_protocol* httproto_protocol_create(enum httproto_type type)
 
     protocol->headers = httproto_string_dictionary_create();
 
+    protocol->content_length = 0;
+    protocol->content = NULL;
+
     return protocol;
 }
 
