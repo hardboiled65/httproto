@@ -55,9 +55,18 @@ int main(int argc, char *argv[])
 
     httproto_protocol_free(protocol);
 
+    /* Test 3 */
+    protocol = httproto_protocol_create(HTTPROTO_REQUEST);
+    httproto_protocol_parse(protocol, requests[2], strlen(requests[2]));
+
+    assert(strcmp(httproto_protocol_get_uri(protocol), "/") == 0);
+    debug_print(protocol);
+    fprintf(stdout, "===============================\n");
+
+    httproto_protocol_free(protocol);
 
     /* Test responses. */
-    /* Test 3 */
+    /* Test 4 */
     protocol = httproto_protocol_create(HTTPROTO_RESPONSE);
     httproto_protocol_parse(protocol, responses[0], strlen(responses[0]));
 

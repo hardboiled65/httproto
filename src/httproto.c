@@ -201,6 +201,14 @@ void httproto_protocol_parse(httproto_protocol *protocol, const char *data, size
     if (protocol->type == HTTPROTO_RESPONSE) {
         protocol->status_code = parser.status_code;
     }
+
+    if (parser.http_major == 1 && parser.http_minor == 1) {
+        protocol->version = HTTPROTO_HTTP_1_1;
+    } else if (parser.http_major == 2 && parser.http_minor == 0) {
+        protocol->version = HTTPROTO_HTTP_2;
+    } else {
+        protocol->valid = false;
+    }
 }
 
 
