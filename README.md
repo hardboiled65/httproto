@@ -7,10 +7,9 @@ Dependencies
 
 - [http-parser](https://github.com/nodejs/http-parser)
 
-Intall dependencies
-===================
+### Intall dependencies
 
-### Arch Linux
+#### Arch Linux
 ```sh
 $ sudo pacman -S http-parser
 ```
