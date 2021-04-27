@@ -219,6 +219,8 @@ void httproto_protocol_set_uri(httproto_protocol *protocol, const char *uri)
         protocol->uri = NULL;
     }
     protocol->uri = (char*)calloc(strlen(uri) + 1, sizeof(char));
+    strcpy(protocol->uri, uri);
+    protocol->uri[strlen(uri)] = '\0';
     protocol->query_string = protocol->uri; // FIXME
 }
 
