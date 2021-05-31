@@ -24,7 +24,7 @@ RSYNC_EXCLUDE_LIST = \
 	--exclude httproto.pro.user
 
 default: $(OBJ)
-	$(CC) $(CFLAGS) -shared -Wl,-soname,$(SONAME) $(LDLIBS) -o libhttproto.so.$(VERSION) $^
+	$(CC) $(CFLAGS) -shared -Wl,-soname,$(SONAME) -o libhttproto.so.$(VERSION) $^ $(LDLIBS)
 	ln -f -s libhttproto.so.$(VERSION) libhttproto.so.$(VERSION_MAJOR).$(VERSION_MINOR)
 	ln -f -s libhttproto.so.$(VERSION_MAJOR).$(VERSION_MINOR) libhttproto.so.$(VERSION_MAJOR)
 	ln -f -s libhttproto.so.$(VERSION_MAJOR) libhttproto.so
